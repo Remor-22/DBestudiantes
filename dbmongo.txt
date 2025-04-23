@@ -1,0 +1,534 @@
+// Create database
+use university_system;
+
+// Create STUDENTS collection
+db.createCollection("students", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name", "id_number", "age"],
+      properties: {
+        name: {
+          bsonType: "string",
+          description: "Student full name"
+        },
+        id_number: {
+          bsonType: "string",
+          description: "National ID number",
+          pattern: "^[VvEe]?-?[0-9]{5,9}$"
+        },
+        age: {
+          bsonType: "int",
+          description: "Student age",
+          minimum: 15,
+          maximum: 80
+        }
+      }
+    }
+  }
+});
+
+// Create DEGREES collection
+db.createCollection("degrees", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["number", "name", "duration"],
+      properties: {
+        number: {
+          bsonType: "int",
+          description: "Unique degree identifier"
+        },
+        name: {
+          bsonType: "string",
+          description: "Degree program name"
+        },
+        duration: {
+          bsonType: "int",
+          description: "Duration in years",
+          minimum: 1,
+          maximum: 8
+        }
+      }
+    }
+  }
+});
+
+db.createCollection("enrollments", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["student_name", "degree_name", "enrollment_date"], // Solo estos 3 campos
+      properties: {
+        student_name: {
+          bsonType: "string",
+          description: "Nombre completo del estudiante"
+        },
+        degree_name: {
+          bsonType: "string",
+          description: "Nombre de la carrera"
+        },
+        enrollment_date: {
+          bsonType: "date",
+          description: "Fecha de inscripción"
+        }
+      }
+    }
+  }
+});
+
+//datos//
+
+db.students.insertMany([
+  { name: "María González", id_number: "V-25468795", age: 21 },
+  { name: "Carlos Pérez", id_number: "E-18549632", age: 23 },
+  { name: "Luisa Rodríguez", id_number: "V-19874563", age: 20 },
+  { name: "Ana López", id_number: "V-28745612", age: 22 },
+  { name: "Jorge Sánchez", id_number: "E-17458963", age: 24 },
+  { name: "Sofía Ramírez", id_number: "V-26547891", age: 19 },
+  { name: "Pedro Mendoza", id_number: "E-15478963", age: 25 },
+  { name: "Laura Fernández", id_number: "V-23659874", age: 20 },
+  { name: "Miguel Torres", id_number: "E-16547892", age: 22 },
+  { name: "Isabel Castro", id_number: "V-24568731", age: 21 },
+  { name: "Ricardo Rojas", id_number: "E-19874562", age: 23 },
+  { name: "Gabriela Herrera", id_number: "V-25413698", age: 20 },
+  { name: "Fernando Silva", id_number: "E-18745963", age: 24 },
+  { name: "Patricia Núñez", id_number: "V-26359874", age: 19 },
+  { name: "Hugo Díaz", id_number: "E-15478632", age: 25 },
+  { name: "Carmen Vega", id_number: "V-23548796", age: 22 },
+  { name: "Alejandro Morales", id_number: "E-16874593", age: 21 },
+  { name: "Daniela Guzmán", id_number: "V-24659871", age: 20 },
+  { name: "Raúl Ortega", id_number: "E-17894562", age: 23 },
+  { name: "Valeria Paredes", id_number: "V-25789634", age: 19 },
+  { name: "José Romero", id_number: "E-16457893", age: 24 },
+  { name: "Adriana Salazar", id_number: "V-23659847", age: 22 },
+  { name: "Andrés Vargas", id_number: "E-18945673", age: 21 },
+  { name: "Lucía Medina", id_number: "V-24568793", age: 20 },
+  { name: "Roberto Ríos", id_number: "E-15748962", age: 25 },
+  { name: "Claudia Peña", id_number: "V-26459871", age: 19 },
+  { name: "Diego Castillo", id_number: "E-17456893", age: 24 },
+  { name: "Mariana Cordero", id_number: "V-25369874", age: 22 },
+  { name: "Juan Guiterrez", id_number: "E-18456792", age: 21 },
+  { name: "Elena Suárez", id_number: "V-24789635", age: 20 },
+  { name: "Mario León", id_number: "E-16547893", age: 23 },
+  { name: "Natalia Espinoza", id_number: "V-23568974", age: 19 },
+  { name: "Oscar Méndez", id_number: "E-17894563", age: 24 },
+  { name: "Verónica Rangel", id_number: "V-24658791", age: 22 },
+  { name: "Arturo Campos", id_number: "E-15478962", age: 25 },
+  { name: "Beatriz Ochoa", id_number: "V-26359847", age: 20 },
+  { name: "Sergio Fuentes", id_number: "E-18745693", age: 21 },
+  { name: "Leticia Miranda", id_number: "V-25468793", age: 19 },
+  { name: "Felipe Reyes", id_number: "E-16547892", age: 23 },
+  { name: "Yolanda Cárdenas", id_number: "V-23659874", age: 22 },
+  { name: "Gustavo Acosta", id_number: "E-17458963", age: 24 },
+  { name: "Rosa Valdez", id_number: "V-24568791", age: 20 },
+  { name: "Manuel Delgado", id_number: "E-18456793", age: 21 },
+  { name: "Silvia Molina", id_number: "V-25789634", age: 19 },
+  { name: "Eduardo Juárez", id_number: "E-16547893", age: 25 },
+  { name: "Teresa Gil", id_number: "V-23659847", age: 22 },
+  { name: "Alberto Navarro", id_number: "E-17894562", age: 23 },
+  { name: "Alicia Mora", id_number: "V-24658791", age: 20 },
+  { name: "Javier Ponce", id_number: "E-15478963", age: 24 }
+]);
+//Carreras//
+db.degrees.insertMany([
+  // Carreras originales
+  {
+    number: 101,
+    name: "Ingeniería Informática",
+    duration: 5
+  },
+  {
+    number: 102,
+    name: "Administración de Empresas",
+    duration: 4
+  },
+  {
+    number: 103,
+    name: "Medicina",
+    duration: 6
+  },
+  // Nuevas carreras (12 adicionales)
+  {
+    number: 104,
+    name: "Derecho",
+    duration: 5
+  },
+  {
+    number: 105,
+    name: "Psicología",
+    duration: 4
+  },
+  {
+    number: 106,
+    name: "Arquitectura",
+    duration: 5
+  },
+  {
+    number: 107,
+    name: "Ingeniería Civil",
+    duration: 5
+  },
+  {
+    number: 108,
+    name: "Comunicación Social",
+    duration: 4
+  },
+  {
+    number: 109,
+    name: "Biología",
+    duration: 4
+  },
+  {
+    number: 110,
+    name: "Economía",
+    duration: 4
+  },
+  {
+    number: 111,
+    name: "Enfermería",
+    duration: 4
+  },
+  {
+    number: 112,
+    name: "Diseño Gráfico",
+    duration: 4
+  },
+  {
+    number: 113,
+    name: "Farmacia",
+    duration: 5
+  },
+  {
+    number: 114,
+    name: "Turismo",
+    duration: 3
+  },
+  {
+    number: 115,
+    name: "Educación Primaria",
+    duration: 4
+  }
+]);
+//Suscripciones//
+db.enrollments.insertMany([
+  // Inscripciones originales
+  {
+    student_name: "María Fernández",
+    degree_name: "Medicina",
+    enrollment_date: new Date("2023-09-10")
+  },
+  {
+    student_name: "José Ramírez",
+    degree_name: "Derecho",
+    enrollment_date: new Date("2023-08-25")
+  },
+  // Nuevas inscripciones (45 adicionales)
+  {
+    student_name: "María González",
+    degree_name: "Ingeniería Informática",
+    enrollment_date: new Date("2023-08-15")
+  },
+  {
+    student_name: "Carlos Pérez",
+    degree_name: "Administración de Empresas",
+    enrollment_date: new Date("2023-09-05")
+  },
+  {
+    student_name: "Carlos Pérez",
+    degree_name: "Derecho",
+    enrollment_date: new Date("2023-09-05")
+  },
+  {
+    student_name: "Luisa Rodríguez",
+    degree_name: "Psicología",
+    enrollment_date: new Date("2023-08-20")
+  },
+  {
+    student_name: "Ana López",
+    degree_name: "Arquitectura",
+    enrollment_date: new Date("2023-09-12")
+  },
+  {
+    student_name: "Jorge Sánchez",
+    degree_name: "Ingeniería Civil",
+    enrollment_date: new Date("2023-08-18")
+  },
+  {
+    student_name: "Sofía Ramírez",
+    degree_name: "Comunicación Social",
+    enrollment_date: new Date("2023-09-01")
+  },
+  {
+    student_name: "Pedro Mendoza",
+    degree_name: "Biología",
+    enrollment_date: new Date("2023-08-22")
+  },
+  {
+    student_name: "Laura Fernández",
+    degree_name: "Economía",
+    enrollment_date: new Date("2023-09-08")
+  },
+  {
+    student_name: "Miguel Torres",
+    degree_name: "Enfermería",
+    enrollment_date: new Date("2023-08-30")
+  },
+  {
+    student_name: "Isabel Castro",
+    degree_name: "Diseño Gráfico",
+    enrollment_date: new Date("2023-09-03")
+  },
+  {
+    student_name: "Ricardo Rojas",
+    degree_name: "Farmacia",
+    enrollment_date: new Date("2023-08-28")
+  },
+  {
+    student_name: "Gabriela Herrera",
+    degree_name: "Turismo",
+    enrollment_date: new Date("2023-09-14")
+  },
+  {
+    student_name: "Gabriela Herrera",
+    degree_name: "Educación Primaria",
+    enrollment_date: new Date("2023-09-14")
+  },
+  {
+    student_name: "Fernando Silva",
+    degree_name: "Medicina",
+    enrollment_date: new Date("2023-08-17")
+  },
+  {
+    student_name: "Patricia Núñez",
+    degree_name: "Administración de Empresas",
+    enrollment_date: new Date("2023-09-09")
+  },
+  {
+    student_name: "Hugo Díaz",
+    degree_name: "Ingeniería Informática",
+    enrollment_date: new Date("2023-08-19")
+  },
+  {
+    student_name: "Carmen Vega",
+    degree_name: "Derecho",
+    enrollment_date: new Date("2023-09-07")
+  },
+  {
+    student_name: "Alejandro Morales",
+    degree_name: "Psicología",
+    enrollment_date: new Date("2023-08-24")
+  },
+  {
+    student_name: "Daniela Guzmán",
+    degree_name: "Arquitectura",
+    enrollment_date: new Date("2023-09-11")
+  },
+  {
+    student_name: "Raúl Ortega",
+    degree_name: "Ingeniería Civil",
+    enrollment_date: new Date("2023-08-16")
+  },
+  {
+    student_name: "Valeria Paredes",
+    degree_name: "Comunicación Social",
+    enrollment_date: new Date("2023-09-02")
+  },
+  {
+    student_name: "José Romero",
+    degree_name: "Biología",
+    enrollment_date: new Date("2023-08-21")
+  },
+  {
+    student_name: "Adriana Salazar",
+    degree_name: "Economía",
+    enrollment_date: new Date("2023-09-06")
+  },
+  {
+    student_name: "Andrés Vargas",
+    degree_name: "Enfermería",
+    enrollment_date: new Date("2023-08-29")
+  },
+  {
+    student_name: "Lucía Medina",
+    degree_name: "Diseño Gráfico",
+    enrollment_date: new Date("2023-09-04")
+  },
+  {
+    student_name: "Roberto Ríos",
+    degree_name: "Farmacia",
+    enrollment_date: new Date("2023-08-27")
+  },
+  {
+    student_name: "Claudia Peña",
+    degree_name: "Turismo",
+    enrollment_date: new Date("2023-09-13")
+  },
+  {
+    student_name: "Diego Castillo",
+    degree_name: "Educación Primaria",
+    enrollment_date: new Date("2023-08-23")
+  },
+  {
+    student_name: "Mariana Cordero",
+    degree_name: "Medicina",
+    enrollment_date: new Date("2023-09-15")
+  },
+  {
+    student_name: "Juan Guiterrez",
+    degree_name: "Administración de Empresas",
+    enrollment_date: new Date("2023-08-31")
+  },
+  {
+    student_name: "Elena Suárez",
+    degree_name: "Ingeniería Informática",
+    enrollment_date: new Date("2023-09-16")
+  },
+  {
+    student_name: "Mario León",
+    degree_name: "Derecho",
+    enrollment_date: new Date("2023-08-26")
+  },
+  {
+    student_name: "Natalia Espinoza",
+    degree_name: "Psicología",
+    enrollment_date: new Date("2023-09-17")
+  },
+  {
+    student_name: "Oscar Méndez",
+    degree_name: "Arquitectura",
+    enrollment_date: new Date("2023-08-14")
+  },
+  {
+    student_name: "Verónica Rangel",
+    degree_name: "Ingeniería Civil",
+    enrollment_date: new Date("2023-09-18")
+  },
+  {
+    student_name: "Arturo Campos",
+    degree_name: "Comunicación Social",
+    enrollment_date: new Date("2023-08-13")
+  },
+  {
+    student_name: "Beatriz Ochoa",
+    degree_name: "Biología",
+    enrollment_date: new Date("2023-09-19")
+  },
+  {
+    student_name: "Sergio Fuentes",
+    degree_name: "Economía",
+    enrollment_date: new Date("2023-08-12")
+  },
+  {
+    student_name: "Leticia Miranda",
+    degree_name: "Enfermería",
+    enrollment_date: new Date("2023-09-20")
+  },
+  {
+    student_name: "Felipe Reyes",
+    degree_name: "Diseño Gráfico",
+    enrollment_date: new Date("2023-08-11")
+  },
+  {
+    student_name: "Yolanda Cárdenas",
+    degree_name: "Farmacia",
+    enrollment_date: new Date("2023-09-21")
+  },
+  {
+    student_name: "Gustavo Acosta",
+    degree_name: "Turismo",
+    enrollment_date: new Date("2023-08-10")
+  },
+  {
+    student_name: "Rosa Valdez",
+    degree_name: "Educación Primaria",
+    enrollment_date: new Date("2023-09-22")
+  },
+  {
+    student_name: "Manuel Delgado",
+    degree_name: "Medicina",
+    enrollment_date: new Date("2023-08-09")
+  },
+  {
+    student_name: "Silvia Molina",
+    degree_name: "Administración de Empresas",
+    enrollment_date: new Date("2023-09-23")
+  },
+  {
+    student_name: "Eduardo Juárez",
+    degree_name: "Ingeniería Informática",
+    enrollment_date: new Date("2023-08-08")
+  },
+  {
+    student_name: "Teresa Gil",
+    degree_name: "Derecho",
+    enrollment_date: new Date("2023-09-24")
+  },
+  {
+    student_name: "Alberto Navarro",
+    degree_name: "Psicología",
+    enrollment_date: new Date("2023-08-07")
+  },
+  {
+    student_name: "Alicia Mora",
+    degree_name: "Arquitectura",
+    enrollment_date: new Date("2023-09-25")
+  },
+  {
+    student_name: "Javier Ponce",
+    degree_name: "Ingeniería Civil",
+    enrollment_date: new Date("2023-08-06")
+  },
+  {
+    student_name: "Javier Ponce",
+    degree_name: "Comunicación Social",
+    enrollment_date: new Date("2023-08-06")
+  }
+]);
+//Actualización de datos de Montos de pago para la suscripción//
+// Definimos los montos base por carrera (algunas superan los 500)
+const careerPrices = {
+  "Medicina": 650,
+  "Ingeniería Informática": 550,
+  "Ingeniería Civil": 520,
+  "Arquitectura": 510,
+  "Derecho": 480,
+  "Administración de Empresas": 450,
+  "Psicología": 420,
+  "Comunicación Social": 400,
+  "Economía": 400,
+  "Biología": 380,
+  "Enfermería": 380,
+  "Diseño Gráfico": 350,
+  "Farmacia": 450,
+  "Turismo": 320,
+  "Educación Primaria": 300
+};
+
+// Actualizamos todas las inscripciones
+db.enrollments.find().forEach(enrollment => {
+  let baseAmount = careerPrices[enrollment.degree_name] || 400;
+  
+  // Aplicamos variación aleatoria de ±10%
+  const variation = (Math.random() * 0.2) - 0.1; // Entre -10% y +10%
+  const finalAmount = Math.floor(baseAmount * (1 + variation));
+  
+  db.enrollments.updateOne(
+    { _id: enrollment._id },
+    { $set: { amount_paid: finalAmount } }
+  );
+});
+
+// Verificamos los cambios
+print("Inscripciones actualizadas con montos de pago:");
+printjson(db.enrollments.aggregate([
+  { 
+    $group: {
+      _id: "$degree_name",
+      avg_amount: { $avg: "$amount_paid" },
+      min_amount: { $min: "$amount_paid" },
+      max_amount: { $max: "$amount_paid" }
+    }
+  },
+  { $sort: { avg_amount: -1 } }
+]).toArray());
